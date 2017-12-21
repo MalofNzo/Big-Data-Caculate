@@ -133,41 +133,86 @@ char* bigplus(char*a, char*b, char*result) {
 	break;
 	case pm: {
 		///test :a = +,b = -
-		int n1 = strlen(a), n2 = strlen(b);
-		n2--;
-		char*bigone, *shortone;
-		bigone = a, shortone = b;
-		shortone++;
+		int np, nm,n1,n2;
+		int signal=0;
+		char *bigone, *shortone, *p1, *m1;
+		if (a[0] == '-') {
+			m1 = a;
+			p1 = b;
+		}
+		else
+		{
+			m1 = b;
+			p1 = a;
+		}
+		np = strlen(p1);
+		nm = strlen(m1)-1;
+		if (np > nm) {
+			bigone = p1;
+			shortone = m1;
+			shortone++;
+			signal = 0;
+		}
+		else if (np < nm){
+			bigone = m1;
+			bigone++;
+			shortone = p1;
+			signal = 1;
+		}
+		else
+		{
+			m1++;
+			for (int i = 0; i < np; i++){
+				if (p1[i] > m1[i]) {
+					bigone = p1;
+					shortone = m1;
+					signal = 0;
+					break;
+				}
+				else if (p1[i] < m1[i]) {
+					bigone = m1;
+					shortone = p1;
+					signal = 1;
+					break;
+				}
+				else if (p1[np - 1] == m1[np - 1]) {
+					result[0] = '0';
+					return result;
+				}
+			}
+
+		}
 		////test end//
 		int temp, c_in = 0;
-		for (int i = max(n1,n2),j = min(n1,n2),k = 0;i!=0; i--) {
+		for (int i = max(np,nm),j = min(np,nm),k = 0;i!=0; i--) {
 			temp = 0;
 			if (j != 0) {
-				if (atoi(&bigone[i-1])-c_in >= atoi(&shortone[j-1])) {
-					temp = atoi(&bigone[i-1]) - atoi(&shortone[j-1]) - c_in;
+				if ((((int)(bigone[i - 1])) - 48) -c_in >= (((int)(shortone[j - 1])) - 48)) {
+					temp = (((int)(bigone[i - 1])) - 48) - (((int)(shortone[j - 1])) - 48) - c_in;
 					c_in = 0;
 				}
-				else if (atoi(&bigone[i-1]) -c_in< atoi(&shortone[j-1])) {
-					if (atoi(&bigone[i-1]) == 0 && c_in == 1) {
-						temp = 9 - atoi(&shortone[j-1]);
+				else if ((((int)(bigone[i - 1])) - 48) -c_in< (((int)(shortone[j - 1]) )- 48)) {
+					if (((int)(bigone[i-1]))-48 == 0 && c_in == 1) {
+						temp = 9 - ((int)(shortone[j-1]))+48;
 						c_in = 1;
 					}
 					else {
-						temp = 10 - atoi(&shortone[j-1]) + atoi(&bigone[i-1]) - c_in;
+						temp = 10 - (((int)(shortone[j-1]))-48) + (((int)(bigone[i - 1])) - 48) - c_in;
 						c_in = 1;
-					}
-				}
-				else {
-					if (atoi(&bigone[i-1]) == 0 && c_in == 1) {
-						temp = 9;
-						c_in = 1;
-					}
-					else {
-						temp = atoi(&bigone[i-1]) - c_in;
-						c_in = 0;
 					}
 				}
 			}
+			else {
+				if ((((int)(bigone[i - 1]))-48) == 0 && c_in == 1) {
+					temp = 9;
+					c_in = 1;
+				}
+				else {
+					temp = ((int)(bigone[i - 1])) - 48 - c_in;
+					c_in = 0;
+				}
+			}
+			j--;
 			temp += 48;
 			*(result + k++) = (char)temp;
 		}
@@ -176,6 +221,9 @@ char* bigplus(char*a, char*b, char*result) {
 			for (;*(result+k)=='0';k--) {
 				*(result + k) = '\0';
 			}
+		}
+		if (signal) {
+			strcat(result, "-");
 		}
 		Reverse(result);
 		return result;
