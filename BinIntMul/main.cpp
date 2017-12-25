@@ -10,7 +10,11 @@ int main() {
 	memset(result, '\0', 100);
 	scanf("%s",&a);
 	scanf("%s", &b);
-	char*n= bigplus(a, b,result);
+	bigplus(a, b,result);
+	printf("%s", result);
+	memset(result, '\0', 100);
+	putchar('\n');
+	bigmin(a, b, result);
 	printf("%s", result);
 	system("pause");
 	return 0;
