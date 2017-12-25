@@ -5,6 +5,19 @@ char* bigplus(char*a, char*b, char*result);
 char* bigplusUnsigned(char*a, char*b,char*result);
 char* bigmin(char*a, char*b, char*result);
 char* bigmul(char*a, char*b, char*result);
+char* mulbig(char* A, char* B);
+void reverseOrder(char* str, int p, int q)
+{
+	char temp;
+	while (p < q)
+	{
+		temp = str[p];
+		str[p] = str[q];
+		str[q] = temp;
+		p++;
+		q--;
+	}
+}
 int main() {
 	char a[100], b[100];
 	char result[100];
@@ -19,8 +32,8 @@ int main() {
 	printf("%s", result);
 	memset(result, '\0', 100);
 	putchar('\n');
-	bigmul(a, b, result);
-	printf("%s", result);
+	char*res=mulbig(a, b);
+	printf("%s", res);
 	putchar('\n');
 	system("pause");
 	return 0;
@@ -323,5 +336,59 @@ char* bigmul(char*a, char*b, char*result) {
 	memset(temp1, '\0', 200);
 	memset(temp2, '\0', 200);
 	strcpy(result, temp3);
+	return result;
+}
+
+char* mulbig(char* A, char* B)
+{
+	int pmflag;
+	enum { pp, pm, mm };
+	int flag;
+	if (((A[0] == '-') && (B[0] != '-')) || ((A[0] != '-') && (B[0] == '-'))) {
+		flag = -1;
+		if (A[0] == '-')
+			A++;
+		else
+			B++;
+	}
+	else if ((A[0] == '-') && (B[0] == '-')) {
+		A++;
+		B++;
+		flag = 1;
+	}
+	else
+		flag = 1;
+	int m = strlen(A);
+	int n = strlen(B);
+	char* result = new char[m + n + 1];
+	memset(result, '0', m + n);
+	result[m + n] = '\0';
+	reverseOrder(A, 0, m - 1);
+	reverseOrder(B, 0, n - 1);
+
+	int multiFlag; 
+	int addFlag;   
+	for (int i = 0; i <= n - 1; i++) 
+	{
+		multiFlag = 0;
+		addFlag = 0;
+		for (int j = 0; j <= m - 1; j++)
+		{
+			int temp1 = (A[j] - 48) * (B[i] - 48) + multiFlag;
+			multiFlag = temp1 / 10;
+			temp1 = temp1 % 10;
+			int temp2 = (result[i + j] - 48) + temp1 + addFlag;
+			addFlag = temp2 / 10;
+			result[i + j] = temp2 % 10 + 48;
+		}
+		result[i + m] += multiFlag + addFlag;
+	}
+	reverseOrder(result, 0, m + n - 1); 
+	if (result[0] == '0')
+		result++;
+	if (flag == -1) {
+		result--;
+		result[0] = '-';
+	}
 	return result;
 }
