@@ -110,40 +110,41 @@ char* bigplus(char*a, char*b, char*result) {
 		shortone++;
 		////test end//
 		int temp, c_in = 0;
-		for (int i = max(n1,n2),j = min(n1,n2),k = 0;i!=0; i--) {
+		for (int i = max(n1, n2), j = min(n1, n2), k = 0; i != 0; i--) {
 			temp = 0;
-			if (j != 0) {
-				if (atoi(&bigone[i-1])-c_in >= atoi(&shortone[j-1])) {
-					temp = atoi(&bigone[i-1]) - atoi(&shortone[j-1]) - c_in;
+			if (j > 0) {
+				if (((int)(bigone[i - 1]) - 48) - c_in >= ((int)(shortone[j - 1]) - 48)) {
+					temp = ((int)(bigone[i - 1]) - 48) - ((int)(shortone[j - 1]) - 48) - c_in;
 					c_in = 0;
 				}
-				else if (atoi(&bigone[i-1]) -c_in< atoi(&shortone[j-1])) {
-					if (atoi(&bigone[i-1]) == 0 && c_in == 1) {
-						temp = 9 - atoi(&shortone[j-1]);
+				else if (((int)(bigone[i - 1]) - 48) - c_in< ((int)(shortone[j - 1]) - 48)) {
+					if (((int)(bigone[i - 1]) - 48) == 0 && c_in == 1) {
+						temp = 9 - ((int)(shortone[j - 1]) - 48);
 						c_in = 1;
 					}
 					else {
-						temp = 10 - atoi(&shortone[j-1]) + atoi(&bigone[i-1]) - c_in;
+						temp = 10 - ((int)(shortone[j - 1]) - 48) + ((int)(bigone[i - 1]) - 48) - c_in;
 						c_in = 1;
-					}
-				}
-				else {
-					if (atoi(&bigone[i-1]) == 0 && c_in == 1) {
-						temp = 9;
-						c_in = 1;
-					}
-					else {
-						temp = atoi(&bigone[i-1]) - c_in;
-						c_in = 0;
 					}
 				}
 			}
+			else {
+				if ((int)(bigone[i - 1]) - 48 == 0 && c_in == 1) {
+					temp = 9;
+					c_in = 1;
+				}
+				else {
+					temp = (int)(bigone[i - 1]) - 48 - c_in;
+					c_in = 0;
+				}
+			}
 			temp += 48;
+			j--;
 			*(result + k++) = (char)temp;
 		}
 		int k = strlen(result);
 		if (*(result + --k) == '0') {
-			for (;*(result+k)=='0';k--) {
+			for (; *(result + k) == '0'; k--) {
 				*(result + k) = '\0';
 			}
 		}
