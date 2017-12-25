@@ -73,6 +73,9 @@ char* bigplusUnsigned(char*a, char*b,char*result) {
 			c_in = 1;
 			temp -= 10;
 		}
+		else {
+			c_in = 0;
+		}
 		temp += 48;
 		*(result+k++) = (char)temp;
 	}
@@ -95,40 +98,7 @@ char* bigplus(char*a, char*b, char*result) {
 	{
 	case pp:
 	{
-		int n1 = strlen(a);
-		int n2 = strlen(b);
-		char *bigone;
-		char *shortone;
-		if (n1 >= n2) {
-			bigone = a;
-			shortone = b;
-		}
-		else {
-			bigone = b;
-			shortone = a;
-		}
-		int temp, c_in = 0;
-		for (int i = max(n1, n2), j = min(n1, n2), k = 0; i != 0; i--) {
-			temp = 0;
-			if (j != 0) {
-				temp = ((int)bigone[i - 1]) - 48 + ((int)shortone[j - 1]) - 48;
-				j--;
-			}
-			else {
-				temp = ((int)bigone[i - 1]) - 48;
-			}
-			temp += c_in;
-			if (temp >= 10) {
-				c_in = 1;
-				temp -= 10;
-			}
-			temp += 48;
-			*(result + k++) = (char)temp;
-		}
-		if (c_in == 1)
-			strcat(result, "1");
-		Reverse(result);
-		return result; 
+		bigplusUnsigned(a, b, result);
 	}
 	break;
 	case pm: {
@@ -182,7 +152,13 @@ char* bigplus(char*a, char*b, char*result) {
 	}
 			 break;
 	case mm:
-		cout << "mm";
+		char*f, *g;
+		f = a + 1;
+		g = b + 1;
+		bigplusUnsigned(f, g, result);
+		Reverse(result);
+		strcat(result, "-");
+		Reverse(result);
 		break;
 	}
 
