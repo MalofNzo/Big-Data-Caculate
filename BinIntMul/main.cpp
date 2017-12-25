@@ -165,6 +165,16 @@ char* bigplus(char*a, char*b, char*result) {
 }
 
 char* bigmin(char*a, char*b, char*result) {
-
+	if (b[0] == '-') {
+		Reverse(b);
+		b[strlen(b) - 1] = '\0';
+		Reverse(b);
+	}
+	else {
+		Reverse(b);
+		strcat(b, "-");
+		Reverse(b);
+	}
+	bigplus(a, b, result);
 	return result;
 }
