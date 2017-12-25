@@ -25,15 +25,15 @@ int main() {
 	scanf("%s",&a);
 	scanf("%s", &b);
 	bigplus(a, b,result);
-	printf("%s", result);
+	printf("加法结果		%s", result);
 	memset(result, '\0', 100);
 	putchar('\n');
 	bigmin(a, b, result);
-	printf("%s", result);
+	printf("减法结果		%s", result);
 	memset(result, '\0', 100);
 	putchar('\n');
 	char*res=mulbig(a, b);
-	printf("%s", res);
+	printf("乘法结果		%s", res);
 	putchar('\n');
 	system("pause");
 	return 0;
@@ -215,6 +215,8 @@ char* bigplus(char*a, char*b, char*result) {
 				*(result + k) = '\0';
 			}
 		}
+		if (signal == 1)
+			strcat(result, "-");
 		Reverse(result);
 		return result;
 	}
@@ -344,6 +346,10 @@ char* mulbig(char* A, char* B)
 	int pmflag;
 	enum { pp, pm, mm };
 	int flag;
+	if (strcmp(A, "0") == 0)
+		return "0";
+	if (strcmp(B, "0") == 0)
+		return "0";
 	if (((A[0] == '-') && (B[0] != '-')) || ((A[0] != '-') && (B[0] == '-'))) {
 		flag = -1;
 		if (A[0] == '-')
