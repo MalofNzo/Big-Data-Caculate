@@ -4,6 +4,7 @@ using namespace std;
 char* bigplus(char*a, char*b, char*result);
 char* bigplusUnsigned(char*a, char*b,char*result);
 char* bigmin(char*a, char*b, char*result);
+char* bigmul(char*a, char*b, char*result);
 int main() {
 	char a[100], b[100];
 	char result[100];
@@ -170,16 +171,19 @@ char* bigplus(char*a, char*b, char*result) {
 }
 
 char* bigmin(char*a, char*b, char*result) {
-	if (b[0] == '-') {
-		Reverse(b);
-		b[strlen(b) - 1] = '\0';
-		Reverse(b);
+	char c[100];
+	memset(c, '\0', 100);
+	strcpy(c, b);
+	if (c[0] == '-') {
+		Reverse(c);
+		c[strlen(c) - 1] = '\0';
+		Reverse(c);
 	}
 	else {
-		Reverse(b);
-		strcat(b, "-");
-		Reverse(b);
+		Reverse(c);
+		strcat(c, "-");
+		Reverse(c);
 	}
-	bigplus(a, b, result);
+	bigplus(a, c, result);
 	return result;
 }
