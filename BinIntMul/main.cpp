@@ -18,6 +18,7 @@ void reverseOrder(char* str, int p, int q)
 		q--;
 	}
 }
+
 int main() {
 	char a[100], b[100];
 	char result[100];
@@ -66,7 +67,6 @@ char* Reverse(char* s)
 	}
 	return s;
 }
-
 
 char* bigplusUnsigned(char*a, char*b,char*result) {
 	int n1 = strlen(a);
@@ -252,94 +252,6 @@ char* bigmin(char*a, char*b, char*result) {
 	return result;
 }
 
-char* bigmul(char*a, char*b, char*result) {
-	char c[100];
-	char d[100];
-	int flag;
-	memset(c, '\0', 100);
-	memset(d, '\0', 100);
-	strcpy(c, a);
-	strcpy(d, b);
-	if (c[0] == '-') {
-		Reverse(c);
-		c[strlen(c) - 1] = '\0';
-		Reverse(c);
-	}
-	if (d[0] == '-') {
-		Reverse(d);
-		d[strlen(d) - 1] = '\0';
-		Reverse(d);
-	}
-	if (((a[0] == '-') && (b[0] != '-')) || ((a[0] != '-') && (b[0] == '-')))
-		flag = -1;
-	else if ((a[0] == '-') && (b[0] == '-'))
-		flag = 1;
-	else
-		flag = 1;
-	int n1 = strlen(c);
-	int n2 = strlen(d);
-	char *bigone;
-	char *shortone;
-	if (n1 >= n2) {
-		bigone = c;
-		shortone = d;
-	}
-	else {
-		bigone = d;
-		shortone = c;
-	}
-	int temp, c_in = 0,c_inp = 0;
-	int tempge;
-	char temp1[200], temp2[200], temp3[200];
-	memset(temp1, '\0', 200);
-	memset(temp2, '\0', 200);
-	memset(temp3, '\0', 200);
-	for (int i = max(n1, n2), j = min(n1, n2), k = 0,cz=0; j != 0; i--,j--) {
-		for (int m = max(n1, n2),k=0; m>0; m--) {
-			temp = ((int)shortone[j - 1] - 48)*((int)bigone[m - 1] - 48);
-			tempge = temp % 10;
-			tempge =tempge+c_in+ c_inp;
-			if (tempge >= 10) {
-				c_in = 1;
-				tempge -= 10;
-			}
-			c_inp = temp / 10;
-			if (i % 2 == 1) {
-				temp1[k++] = (char)(tempge + 48);
-			}
-			else {
-				temp2[k++] = (char)(tempge + 48);
-			}
-		}
-		if (i % 2 == 1) {
-			if (c_inp > 0)
-				temp1[strlen(temp1)] = (char)(c_inp + 48);
-			Reverse(temp1);
-			for (int o = 0; o < cz; o++)
-				strcat(temp1, "0");
-			cz++;
-		}
-		else {
-			if (c_inp > 0)
-				temp2[strlen(temp2)] = (char)(c_inp + 48);
-			Reverse(temp2);
-			for (int o = 0; o < cz; o++)
-				strcat(temp2, "0");
-			cz++;
-		}
-		bigplusUnsigned(temp1, temp2, temp3);
-		memset(temp1, '\0', 200);
-		memset(temp2, '\0', 200);
-		if (i % 2 == 1)
-			strcpy(temp1, temp3);
-		else
-			strcpy(temp2, temp3);
-	}
-	memset(temp1, '\0', 200);
-	memset(temp2, '\0', 200);
-	strcpy(result, temp3);
-	return result;
-}
 
 char* mulbig(char* A, char* B)
 {
